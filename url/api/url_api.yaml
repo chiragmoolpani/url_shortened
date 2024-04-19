@@ -1,0 +1,68 @@
+swagger: '2.0'
+info:
+  title: URL Shortener 
+  description: URL Shortener 
+  version: 2.0.0
+
+consumes:
+  - application/json
+produces:
+  - application/json
+schemes:
+    - http
+paths:
+  /url/getShortUrl/{URL}:
+      get: 
+        tags:
+          - URL Shortened API
+        summary: Get Shortened URL
+        operationId: getShortenerUrl
+        parameters: 
+        - in: path
+          name: URL
+          type: string
+          required: true
+          description: Long URL that need to be shortened
+        responses: 
+          200: 
+            description: getShortenerUrl API "Successful"
+            schema:
+                $ref: "#/definitions/getShortenedUrlResp"
+          401: 
+            description: Unauthorised
+            schema:
+                $ref: '#/definitions/errorInformation'
+          500: 
+            description: getAimlConfigInfo API Failed "Internal Server Error"
+            schema: 
+              $ref: '#/definitions/errorInformation'
+               
+
+definitions:
+    getShortenedUrlResp:
+      type: object
+      title: getShortenedUrlResp
+      properties:
+        ShortURL:
+          type: string
+          description: Shortened URL
+          
+    errorInformation:
+      title: errorInformation
+      type: object
+      required:
+        - detail
+        - status
+      properties:
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of
+            the problem.
+          example: Info not found
+        status:
+          type: integer
+          description: The HTTP status code for this occurrence of the problem.
+          format: int32
+          example: 404
+      description: Problem as defined in https://tools.ietf.org/html/rfc7807
+ 
